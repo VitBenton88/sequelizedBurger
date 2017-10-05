@@ -4,42 +4,47 @@
 
 // Dependencies
 // =============================================================
-var Burger = require("../models/burger.js");
+var db = require("../models");
 
 
 // Routes
 // =============================================================
 module.exports = function(app) {
 
-  // Get all chirps
-  app.get("/api/all", function(req, res) {
-
-    // Finding all Chirps, and then returning them to the user as JSON.
-    // Sequelize queries are aynchronous, which helps with percieved speed.
-    // If we want something to be guaranteed to happen after the query, we'll use
-    // the .then function
-    Chirp.findAll({}).then(function(results) {
+    // Get all burgers
+  app.get("/", function(req, res) {
+    db.burgers.findAll({}).then(function(results) {
       // results are available to us inside the .then
-      res.json(results);
+      res.render("index", results);
     });
-
   });
 
-  // Add a chirp
-  app.post("/api/new", function(req, res) {
-
-    console.log("Chirp Data:");
-    console.log(req.body);
-
-    Chirp.create({
-      author: req.body.author,
-      body: req.body.body,
-      created_at: req.body.created_at
+  // create new burger
+  app.post("/", function(req, res) {
+    db.burgers.create({
+      burger_name: req.body.name
     }).then(function(results) {
-      // `results` here would be the newly created chirp
-      res.end();
+      // REFRESH PAGE
+      res.redirect("/");
     });
-
   });
 
+  // update burger
+  app.put("/:id", function(req, res) {
+
+    var id = req.params.id;
+    var devoured = req.body.devoured;
+
+    console.log("Devouring ID: " + id);
+
+    db.burgers.update(req.body.name,
+    {
+      where: {
+        id: id
+      }
+    }).then(function(results) {
+      // REFRESH PAGE
+      res.redirect("/");
+    });
+  });
 };

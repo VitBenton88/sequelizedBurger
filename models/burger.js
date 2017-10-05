@@ -1,27 +1,18 @@
-// Dependencies
-// =============================================================
+module.exports = function(sequelize, DataTypes) {
+  
+  var Burger = sequelize.define("burgers", {
+    burger_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
 
-var Sequelize = require("sequelize");
-var connection = require("../config/connection.js");
+      },
+      devoured: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
+      createdAt: 'date',
+  });
+  return Burger;
+};
 
-var Burger = connection.define("burgers", {
-  burger_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-
-    },
-    devoured: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-    date: {
-      type: Sequelize.DATE
-    }
-});
-
-// Syncs with DB
-Burger.sync();
-
-// Makes the Burger Model available for other files (will also create a table)
-module.exports = Burger;
