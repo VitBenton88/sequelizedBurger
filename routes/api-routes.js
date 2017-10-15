@@ -1,23 +1,11 @@
-// *********************************************************************************
-// api-routes.js - this file offers a set of routes for displaying and saving data to the db
-// *********************************************************************************
-
-// Dependencies
-// =============================================================
+// // Dependencies
+// // =============================================================
 var db = require("../models");
 
 
-// Routes
-// =============================================================
+// // Routes
+// // =============================================================
 module.exports = function(app) {
-
-    // Get all burgers
-  app.get("/", function(req, res) {
-    db.burgers.findAll({}).then(function(results) {
-      // results are available to us inside the .then
-      res.render("index", results);
-    });
-  });
 
   // create new burger
   app.post("/", function(req, res) {
@@ -33,11 +21,10 @@ module.exports = function(app) {
   app.put("/:id", function(req, res) {
 
     var id = req.params.id;
-    var devoured = req.body.devoured;
 
     console.log("Devouring ID: " + id);
 
-    db.burgers.update(req.body.name,
+    db.burgers.update({ devoured: true },
     {
       where: {
         id: id
@@ -47,4 +34,5 @@ module.exports = function(app) {
       res.redirect("/");
     });
   });
+
 };
