@@ -11,8 +11,6 @@ var methodOverride = require("method-override");
 // Requiring our models for syncing
 var db = require("./models");
 
-//sfaqfhoweip
-
 // Sets up the Express App
 // =============================================================
 var app = express();
